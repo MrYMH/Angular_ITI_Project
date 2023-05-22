@@ -1,0 +1,48 @@
+
+<div class="container m-3">
+  <h3>Add New Product</h3>
+    <form (ngSubmit)="addProduct()" #prdfm="ngForm">
+        <div class="mb-3">
+          <label for="name" class="form-label">Product Name</label>
+          <input type="text" required #name="ngModel" class="form-control" 
+            id="name" [(ngModel)]="newprd.name" name="pName" minlength="5" maxlength="30">
+          
+            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert bg-alert">
+        
+              <div *ngIf="name.errors?.['required']"class="text-danger">
+                Name is required.
+              </div>
+              <div *ngIf="name.errors?.['minlength']" class="text-danger">
+                Name must be at least 4 characters long.
+              </div>
+              <div *ngIf="name.errors?.['maxlength']" class="text-danger">
+                Name must be at least 4 characters long.
+              </div>
+            </div>
+        </div>
+        <div class="mb-3">
+          <label for="price" class="form-label">Product Price</label>
+          <input type="number" required #prdPrice="ngModel" class="form-control" id="price" min="100" [(ngModel)]="newprd.price" name="pPrice">
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Product Quantity</label>
+            <input type="number" required #prdQuantity="ngModel" class="form-control" id="quantity" min="0" [(ngModel)]="newprd.quantity" name="pQuantity" >
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Product Image</label>
+            <input type="file" required #prdImg="ngModel" class="form-control" id="image" [(ngModel)]="newprd.imageUrl" name="pImage" >
+          </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Select Category</label>
+            <select required class="select form-select" [(ngModel)]="newprd.categoryId" name="pCategoryId" #prdCat="ngModel">
+                <option *ngFor="let cat of catList " [value]="cat.Id">
+                    {{cat.Name}}
+                </option>
+                
+            </select>
+          </div>
+        <button type="submit" [disabled]="prdfm.invalid" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+
+

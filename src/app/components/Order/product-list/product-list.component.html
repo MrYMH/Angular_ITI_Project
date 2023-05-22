@@ -1,0 +1,63 @@
+
+
+<div class="container">
+    
+    <a class="btn btn-primary p-3 m-3" [routerLink]="['/Orders/Products/Add']" href="#" role="button">New Product</a>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Image</th>
+            <th scope="col">Price by Eur</th>
+            <th scope="col">Price by Egy</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Count</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            *ngFor="let prd of prdOfCatId; let i = index ; trackBy: prdTrackByFn" 
+             [ngClass]="{'bg-warning' : prd.quantity ==0 , 'text-primary' : prd.quantity ==0}" 
+             >
+            <th>{{i + 1}}</th>
+            <td>{{prd.name}}</td>
+            <td LightBox="red" defaultColor="darkgreen"><img [src]="prd.imageUrl" alt=""></td>
+            <td>{{prd.price | currency:'EUR'}}</td>
+            <td>{{prd.price | USDToEGP | currency : 'EGY'}}</td>
+            <td>
+              <ng-container [ngSwitch]="prd.quantity">
+                <p *ngSwitchCase="0">Out of Stock</p>
+                <p *ngSwitchCase="1">Last one</p>
+                <p *ngSwitchCase="2">Last two</p>
+                <p *ngSwitchDefault>{{prd.quantity}}</p>
+              </ng-container>
+            </td>
+            
+            <td>
+                <input #itemCount type="number" >
+                <!-- <span>{{+itemCount.value * 3}}</span> -->
+            </td>
+            <td><button class="btn btn-success" (click)="OnCartAdd(prd , itemCount.value)">Add To Cart</button></td>
+            <td>
+              <a  class="btn btn-primary" [routerLink]="['/Orders/Product' , prd.id]" role="button">Details</a>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <!-- <div class="text-danger">
+        <div>
+          to be removed
+        </div>
+        <div>Your total order price is {{totalOrderPrice}}</div>
+      </div> -->
+</div>
+
+
+
+

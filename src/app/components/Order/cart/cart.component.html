@@ -1,0 +1,68 @@
+<div class="container">
+    <section class="p-4 mb-5">
+        <span>Select Category: </span>
+        <!-- <select  class="select form-select" [(ngModel)] = "selectedCategory" (change)="filterProductByCatId()"> -->
+        <select  class="select form-select" [(ngModel)] = "selectedCategory">
+            <option value="0" selected>All</option>
+            <option *ngFor="let cat of catList " [value]="cat.Id">
+                {{cat.Name}}
+            </option>
+            
+          </select>
+    </section>
+
+    <!-- <app-product-list [sentCatId]="selectedCategory" (totalPriceChanged)="onTotalPriceChanged($event)"></app-product-list> -->
+    <app-product-list [sentCatId]="selectedCategory" (newProductAdded)="onNewProductadded($event)">
+
+    </app-product-list>
+
+    <!-- <div class="text-info">
+        <h4>Total price of order : {{totalOrderPrice | currency:"EUR"}}</h4> 
+    </div> -->
+
+    <div class="table-responsive">
+        <table class="table table-primary">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">unit Price</th>
+                    <th scope="col">Amount added</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Remove</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <tr 
+                      *ngFor="let prd of cartVMList ; let i = index" 
+                >
+                    <td scope="row">{{i+1}}</td>
+                    <td>{{prd.prdName}}</td>
+                    <td>{{prd.price | currency:'EUR'}}</td>
+                    <!-- <td>{{prd.count}}</td> -->
+                    <td>
+                        <input type="number" #countinput [value]="prd.count" (change)="onCountChange(countinput.value , prd)">
+                    </td>
+                    <td>{{prd.totalPrice | currency:'EUR'}}</td>
+                    <td>
+                        <!-- <input class="btn btn-primary" type="button" value="Delete"> -->
+                        <button type="button" class="btn btn-danger" (click)="ondelete(prd)">Delete</button>
+                    </td>
+                    
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-6">
+                <h4>Total order price : {{totalOrderPrice | currency:'EUR'}}</h4>
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-success" (click)="onBuy()">Buy</button>
+            </div>
+        </div>
+    </div>
+    
+</div>
+

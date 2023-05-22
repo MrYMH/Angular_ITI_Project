@@ -1,0 +1,23 @@
+
+<div class="container m-3">
+    <!-- <button [disabled]="isUserLogged" type="button" class="btn btn-success" (click)="login()">
+        login
+    </button>
+    <button [disabled]="!isUserLogged" type="button" class="btn btn-danger" (click)="logout()">
+        logout
+    </button> -->
+
+    <form>
+        <div class="mb-3">
+          <label for="uname" class="form-label">User Name</label>
+          <input #uname type="text" class="form-control" id="uname" >
+          <span class="text-danger" *ngFor="let err of userNameErrors">{{err}}</span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Password</label>
+          <input #password type="password" class="form-control" id="exampleInputPassword1">
+          <span class="text-danger" *ngFor="let err of passwordErrors">{{err}}</span>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="login(uname.value , password.value)">Login</button>
+    </form>
+</div>

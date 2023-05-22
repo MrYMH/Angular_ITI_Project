@@ -1,0 +1,130 @@
+
+<div class="container m-3">
+    <h3>Add New Product</h3>
+      <form [formGroup]="userRegFrm" (ngSubmit)="submit()">
+
+          <div class="mb-3">
+            <label for="fname" class="form-label">Full Name</label>
+            <!-- visual feedback classes -->
+            <input type="text" class="form-control" id="fname" name="f-Name" formControlName="fullName" 
+              [class.is-invalid] = "fullName?.invalid && fullName?.touched" >
+            <!-- handle error -->
+            <div class="alert alert-primary" role="alert" [hidden]="fullName?.valid || fullName?.untouched">
+              <small *ngIf="fullName?.errors?.['required']">
+                Full Name is Required
+              </small>
+              <small *ngIf="fullName?.errors?.['pattern']">
+                Full Name must be 3 letters at least
+              </small>
+            </div>
+            
+
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" formControlName="email" >
+
+            <!-- handle error -->
+            <div class="alert alert-primary" role="alert" [hidden]="email?.valid || email?.untouched">
+              <small *ngIf="email?.errors?.['required']">
+                Email is Required
+              </small>
+              <small *ngIf="email?.errors?.['EmailExist']">
+                Email is already exists
+              </small>
+            </div>
+
+          </div>
+
+          <div formArrayName="phoneNo">
+            <div class="mb-3" *ngFor="let phone of phoneNos.controls ; let i = index">
+              <label for="{{'uphone' + i}}" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="{{'uphone' + i}}" name="{{'uphone' + i}}" [formControlName]="i" >
+              <button type="button" class="btn btn-primary" (click)="addPhoneNo($event)">+</button>
+            </div>
+          </div>
+
+          <div formGroupName="address">
+
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" formControlName="city" >
+              </div>
+
+            <div class="mb-3">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="number" class="form-control" id="postalCode" name="postalCode" formControlName="postalCode" >
+              </div>
+
+            <div class="mb-3">
+                <label for="street" class="form-label">Street</label>
+                <input type="text" class="form-control" id="street" name="street" formControlName="street" >
+              </div>
+
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" formControlName="password" >
+            <div class="alert alert-danger"*ngIf="password?.touched && password?.errors?.['required']">
+              password is required
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" formControlName="confirmPassword" >
+            <div class="alert alert-danger"*ngIf="confirmPassword?.touched && confirmPassword?.errors?.['required']">
+              confirm password is required
+            </div>
+            <div class="alert alert-danger"*ngIf="confirmPassword?.touched && userRegFrm?.errors?.['unmatchedPassword']">
+              password does not match
+            </div>
+          </div>
+
+          <!-- referral and referral other -->
+          <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+            <span class="me-3">how did you hear about us? </span>
+            <input type="radio" class="btn-check" name="referral" formControlName="referral" 
+              value="socialMedial" id="btnradio1" autocomplete="off" checked (change)="updateReferralValidator()">
+            <label class="btn btn-outline-primary" for="btnradio1">Social Media</label>
+          
+            <input type="radio" class="btn-check" (change)="updateReferralValidator()" name="referral" 
+              formControlName="referral" value="friend" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btnradio2">friend</label>
+          
+            <input type="radio" class="btn-check" name="referral" formControlName="referral" 
+              value="other" id="btnradio3" autocomplete="off" (change)="updateReferralValidator()">
+            <label class="btn btn-outline-primary" for="btnradio3">other</label>
+          </div> <br>
+          
+          <div class="mb-3" *ngIf="referral?.value=='other'">
+            <label for="referralOther" class="form-label">Specify Other:</label>
+            <input type="text" class="form-control" id="referralOther" name="referralOther" 
+              formControlName="referralOther" >
+          </div>
+
+          <button [disabled]="userRegFrm.invalid" type="submit" class="btn btn-primary">Submit</button>
+        </form>
+  </div>
+  
+
+  <div class="text-danger container">
+    <h3>to be deleted : </h3>
+    <div> user object: 
+      {{userRegFrm.value | json}}
+    </div>
+    <div> fullname errors: 
+      {{fullName?.errors | json}}
+    </div>
+    <div> email errors: 
+      {{email?.errors | json}}
+    </div>
+    <div> form errors: 
+      {{userRegFrm.errors | json}}
+    </div>
+
+  </div>
+  
+  
